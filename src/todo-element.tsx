@@ -4,11 +4,11 @@ export type ProgressState = 'Completed' | 'OnProgress';
 export type Priority = 'High' | 'Middle' | 'Low';
 
 export type TodoProps = {
+    [key: string]: string;
     name: string;
-    deadline: Date;
+    deadline: string;
     state: ProgressState;
     priority: Priority;
-    memo: string;
 };
 
 export function TodoElement(props: TodoProps) {
@@ -18,22 +18,13 @@ export function TodoElement(props: TodoProps) {
                 <span className="todo-list__element__name">{props.name}</span>
             </td>
             <td>
-                <span className="todo-list__element__deadline">{props.deadline.toDateString()}</span>
+                <span className="todo-list__element__deadline">{props.deadline}</span>
             </td>
             <td>
                 <span className="todo-list__element__state">{props.state}</span>
             </td>
             <td>
                 <span className="todo-list__element__priority">{props.priority}</span>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    className="todo-list__element__memo"
-                    name={'actionPriority'}
-                    value={props.memo}
-                    onChange={() => {}}
-                />
             </td>
             <td>
                 <input
