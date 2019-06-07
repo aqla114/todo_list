@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { TodoProps } from './todo-element';
+import { progressState } from './progress-state';
+import { priority } from './priority';
 
 type AddTodoFormProps = {
     todoProps: TodoProps;
@@ -47,9 +49,9 @@ export function AddTodoForm(props: AddTodoFormProps) {
                                 value={props.todoProps.state}
                                 onChange={props.onChangeCurrentProps}
                             >
-                                <option value="NotStarted">未着手</option>
-                                <option value="OnProgress">進行中</option>
-                                <option value="Completed">完了</option>
+                                <option value="NotStartedYet">{progressState.NotStartedYet}</option>
+                                <option value="OnProgress">{progressState.OnProgress}</option>
+                                <option value="Completed">{progressState.Completed}</option>
                             </select>
                         </td>
                         <td>
@@ -59,9 +61,9 @@ export function AddTodoForm(props: AddTodoFormProps) {
                                 value={props.todoProps.priority}
                                 onChange={props.onChangeCurrentProps}
                             >
-                                <option value="High">高</option>
-                                <option value="Middle">中</option>
-                                <option value="Low">低</option>
+                                <option value="High">{priority.High}</option>
+                                <option value="Middle">{priority.Middle}</option>
+                                <option value="Low">{priority.Low}</option>
                             </select>
                         </td>
                     </tr>

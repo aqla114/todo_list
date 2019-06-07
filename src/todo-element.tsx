@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-export type ProgressState = 'Completed' | 'OnProgress' | 'NotStartedYet';
-export type Priority = 'High' | 'Middle' | 'Low';
+import { ProgressState, progressState } from './progress-state';
+import { Priority, priority } from './priority';
 
 export type TodoProps = {
     [key: string]: string;
@@ -27,10 +26,10 @@ export function TodoElement(props: TodoElementProps) {
                 <span className="todo-list__element__deadline">{props.todoProps.deadline}</span>
             </td>
             <td>
-                <span className="todo-list__element__state">{props.todoProps.state}</span>
+                <span className="todo-list__element__state">{progressState[props.todoProps.state]}</span>
             </td>
             <td>
-                <span className="todo-list__element__priority">{props.todoProps.priority}</span>
+                <span className="todo-list__element__priority">{priority[props.todoProps.priority]}</span>
             </td>
             <td>
                 <input

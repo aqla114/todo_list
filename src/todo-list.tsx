@@ -9,7 +9,7 @@ export type TodoListState = {
 };
 
 const initialTodo: TodoProps = {
-    id: UUID.v4(),
+    id: '',
     name: '',
     deadline: '',
     state: 'NotStartedYet',
@@ -22,7 +22,10 @@ export class TodoList extends React.Component<{}, TodoListState> {
 
         this.state = {
             todoList: [
-                { id: UUID.v4(), name: '勉強', deadline: '2000-01-01', state: 'OnProgress', priority: 'Middle' },
+                { id: UUID.v4(), name: 'タスク１', deadline: '2000-01-01', state: 'OnProgress', priority: 'Middle' },
+                { id: UUID.v4(), name: 'タスク２', deadline: '2000-01-02', state: 'Completed', priority: 'High' },
+                { id: UUID.v4(), name: 'タスク３', deadline: '2000-01-03', state: 'OnProgress', priority: 'Middle' },
+                { id: UUID.v4(), name: 'タスク４', deadline: '2000-01-04', state: 'NotStartedYet', priority: 'Low' },
             ],
             currentTodo: initialTodo,
         };
@@ -40,7 +43,6 @@ export class TodoList extends React.Component<{}, TodoListState> {
     }
 
     deleteTodo(id: string) {
-        console.log(this, id);
         const todoList = this.state.todoList.slice().filter(x => x.id !== id);
 
         console.log(id, todoList);
@@ -51,9 +53,8 @@ export class TodoList extends React.Component<{}, TodoListState> {
     }
 
     updateCurrentProps(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) {
+        console.log(this.state.todoList);
         const currentTodo: TodoProps = { ...this.state.currentTodo };
-        console.log(currentTodo);
-        console.log(e.target.name, e.target.value);
         currentTodo[e.target.name] = e.target.value;
 
         this.setState({
