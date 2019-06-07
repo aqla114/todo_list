@@ -21,47 +21,50 @@ export function AddTodoForm(props: AddTodoFormProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    <td>
-                        <input
-                            type="text"
-                            className="add-todo__form__name"
-                            name={'name'}
-                            value={props.todoProps.name}
-                            onChange={props.onChangeCurrentProps}
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type="date"
-                            className="add-todo__form__deadline"
-                            name={'deadline'}
-                            value={props.todoProps.deadline}
-                            onChange={props.onChangeCurrentProps}
-                        />
-                    </td>
-                    <td>
-                        <select
-                            name="state"
-                            className="add-todo__form__state"
-                            value={props.todoProps.state}
-                            onChange={props.onChangeCurrentProps}
-                        >
-                            <option value="OnProgress">進行中</option>
-                            <option value="Completed">完了</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select
-                            name="priority"
-                            className="add-todo__form__priority"
-                            value={props.todoProps.priority}
-                            onChange={props.onChangeCurrentProps}
-                        >
-                            <option value="High">高</option>
-                            <option value="Middle">中</option>
-                            <option value="Low">低</option>
-                        </select>
-                    </td>
+                    <tr>
+                        <td>
+                            <input
+                                type="text"
+                                className="add-todo__form__name"
+                                name={'name'}
+                                value={props.todoProps.name}
+                                onChange={props.onChangeCurrentProps}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="date"
+                                className="add-todo__form__deadline"
+                                name={'deadline'}
+                                value={props.todoProps.deadline}
+                                onChange={props.onChangeCurrentProps}
+                            />
+                        </td>
+                        <td>
+                            <select
+                                name="state"
+                                className="add-todo__form__state"
+                                value={props.todoProps.state}
+                                onChange={props.onChangeCurrentProps}
+                            >
+                                <option value="NotStarted">未着手</option>
+                                <option value="OnProgress">進行中</option>
+                                <option value="Completed">完了</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select
+                                name="priority"
+                                className="add-todo__form__priority"
+                                value={props.todoProps.priority}
+                                onChange={props.onChangeCurrentProps}
+                            >
+                                <option value="High">高</option>
+                                <option value="Middle">中</option>
+                                <option value="Low">低</option>
+                            </select>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <input

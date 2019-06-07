@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { TodoProps, TodoElement } from './todo-element';
 import { AddTodoForm } from './add-todo-form';
+import * as UUID from 'uuid';
 
 export type TodoListState = {
     todoList: TodoProps[];
@@ -8,9 +9,10 @@ export type TodoListState = {
 };
 
 const initialTodo: TodoProps = {
+    id: UUID.v4(),
     name: '',
     deadline: '',
-    state: 'OnProgress',
+    state: 'NotStartedYet',
     priority: 'Middle',
 };
 
@@ -19,19 +21,32 @@ export class TodoList extends React.Component<{}, TodoListState> {
         super(props);
 
         this.state = {
-            todoList: [{ name: '勉強', deadline: '2000-01-01', state: 'OnProgress', priority: 'Middle' }],
+            todoList: [
+                { id: UUID.v4(), name: '勉強', deadline: '2000-01-01', state: 'OnProgress', priority: 'Middle' },
+            ],
             currentTodo: initialTodo,
         };
     }
 
-    addTodo(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
-        const todo = { ...this.state.currentTodo };
+    addTodo() {
+        const todo = { id: UUID.v4(), ...this.state.currentTodo };
         const todoList = this.state.todoList.slice();
         todoList.push(todo);
 
         this.setState({
             todoList,
             currentTodo: initialTodo,
+        });
+    }
+
+    deleteTodo(id: string) {
+        console.log(this, id);
+        const todoList = this.state.todoList.slice().filter(x => x.id !== id);
+
+        console.log(id, todoList);
+
+        this.setState({
+            todoList,
         });
     }
 
@@ -49,7 +64,9 @@ export class TodoList extends React.Component<{}, TodoListState> {
     render() {
         const { todoList, currentTodo } = this.state;
 
-        const todoElements = todoList.map(todo => <TodoElement {...todo} />);
+        const todoElements = todoList.map(todo => (
+            <TodoElement key={todo.id} todoProps={todo} onClickDeleteButton={() => this.deleteTodo(todo.id)} />
+        ));
         return (
             <div>
                 <table className="todo-list">
@@ -66,7 +83,7 @@ export class TodoList extends React.Component<{}, TodoListState> {
                 </table>
                 <AddTodoForm
                     todoProps={currentTodo}
-                    onClickAddButton={e => this.addTodo(e)}
+                    onClickAddButton={() => this.addTodo()}
                     onChangeCurrentProps={e => this.updateCurrentProps(e)}
                 />
             </div>
