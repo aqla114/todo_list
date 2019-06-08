@@ -5,6 +5,7 @@ import * as UUID from 'uuid';
 import { ProgressState } from './progress-state';
 import moment = require('moment');
 import { FilterOption, ListFilter } from './list-filter';
+import { SortOption, ListSorter } from './list-sorter';
 
 function filterState(option: FilterOption, state: ProgressState): boolean {
     switch (option) {
@@ -21,10 +22,82 @@ function filterState(option: FilterOption, state: ProgressState): boolean {
     }
 }
 
+function sorter(sortOption: SortOption) {
+    switch (sortOption) {
+        case 'DeadLineAsc':
+            return (a: TodoProps, b: TodoProps) => {
+                const date_a = new Date(a.deadline);
+                const date_b = new Date(b.deadline);
+                if (date_a < date_b) {
+                    return -1;
+                }
+                if (date_a > date_b) {
+                    return 1;
+                }
+                return 0;
+            };
+        case 'DeadLineDesc':
+            return (a: TodoProps, b: TodoProps) => {
+                const date_a = new Date(a.deadline);
+                const date_b = new Date(b.deadline);
+                if (date_a > date_b) {
+                    return -1;
+                }
+                if (date_a < date_b) {
+                    return 1;
+                }
+                return 0;
+            };
+        case 'PriorityAsc':
+            return (a: TodoProps, b: TodoProps) => {
+                if (a.priority === 'High') {
+                    return 1;
+                }
+                if (a.priority === 'Low') {
+                    return -1;
+                }
+                if (a.priority === 'Middle') {
+                    if (b.priority === 'High') {
+                        return -1;
+                    }
+                    if (b.priority === 'Middle') {
+                        return 0;
+                    }
+                    if (b.priority === 'Low') {
+                        return 1;
+                    }
+                }
+                return 0;
+            };
+        case 'PriorityDesc':
+            return (a: TodoProps, b: TodoProps) => {
+                if (a.priority === 'High') {
+                    return -1;
+                }
+                if (a.priority === 'Low') {
+                    return 1;
+                }
+                if (a.priority === 'Middle') {
+                    if (b.priority === 'High') {
+                        return 1;
+                    }
+                    if (b.priority === 'Middle') {
+                        return 0;
+                    }
+                    if (b.priority === 'Low') {
+                        return -1;
+                    }
+                }
+                return 0;
+            };
+    }
+}
+
 export type TodoListState = {
     todoList: TodoProps[];
     currentTodo: TodoProps;
     filterOption: FilterOption;
+    sortOption: SortOption;
 };
 
 const initialTodo: TodoProps = {
@@ -48,6 +121,7 @@ export class TodoList extends React.Component<{}, TodoListState> {
             ],
             currentTodo: initialTodo,
             filterOption: 'All',
+            sortOption: 'DeadLineAsc',
         };
     }
 
@@ -88,11 +162,19 @@ export class TodoList extends React.Component<{}, TodoListState> {
         });
     }
 
+    sortList(e: React.ChangeEvent<HTMLSelectElement>) {
+        this.setState({
+            sortOption: e.target.value as SortOption,
+        });
+    }
+
     render() {
-        const { todoList, currentTodo, filterOption } = this.state;
+        const { todoList, currentTodo, filterOption, sortOption } = this.state;
 
         const todoElements = todoList
             .filter(todo => filterState(filterOption, todo.state))
+            .slice()
+            .sort(sorter(sortOption))
             .map(todo => (
                 <TodoElement key={todo.id} todoProps={todo} onClickDeleteButton={() => this.deleteTodo(todo.id)} />
             ));
@@ -101,6 +183,7 @@ export class TodoList extends React.Component<{}, TodoListState> {
             <div>
                 <h1 className="title">Todo List</h1>
                 <ListFilter filterOption={this.state.filterOption} onChangeFilter={e => this.filterList(e)} />
+                <ListSorter sortOption={this.state.sortOption} onChangeSort={e => this.sortList(e)} />
                 <table className="todo-list">
                     <thead>
                         <tr>
