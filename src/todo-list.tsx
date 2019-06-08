@@ -4,8 +4,7 @@ import { AddTodoForm } from './add-todo-form';
 import * as UUID from 'uuid';
 import { ProgressState } from './progress-state';
 import moment = require('moment');
-
-type FilterOption = ProgressState | 'All' | 'NotCompleted';
+import { FilterOption, ListFilter } from './list-filter';
 
 function filterState(option: FilterOption, state: ProgressState): boolean {
     switch (option) {
@@ -27,8 +26,6 @@ export type TodoListState = {
     currentTodo: TodoProps;
     filterOption: FilterOption;
 };
-
-const initialDate = new Date();
 
 const initialTodo: TodoProps = {
     id: '',
@@ -103,18 +100,7 @@ export class TodoList extends React.Component<{}, TodoListState> {
         return (
             <div>
                 <h1 className="title">Todo List</h1>
-                <select
-                    name="filter"
-                    className="list-filter"
-                    value={this.state.filterOption}
-                    onChange={e => this.filterList(e)}
-                >
-                    <option value="All">全て表示</option>
-                    <option value="NotCompleted">未完のみ表示</option>
-                    <option value="OnProgress">進行中のみ表示</option>
-                    <option value="NotStartedYet">未着手のみ表示</option>
-                    <option value="Completed">完了済のみ表示</option>
-                </select>
+                <ListFilter filterOption={this.state.filterOption} onChangeFilter={e => this.filterList(e)} />
                 <table className="todo-list">
                     <thead>
                         <tr>
