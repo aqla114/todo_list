@@ -12,7 +12,7 @@ type AddTodoFormProps = {
 export function AddTodoForm(props: AddTodoFormProps) {
     return (
         <div className="add-todo">
-            <div className="add-todo__title">新しい予定の追加</div>
+            <h2 className="add-todo__title">新しい予定の追加</h2>
             <table className="add-todo__form">
                 <thead>
                     <tr>
@@ -66,16 +66,18 @@ export function AddTodoForm(props: AddTodoFormProps) {
                                 <option value="Low">{priority.Low}</option>
                             </select>
                         </td>
+                        <td>
+                            <input
+                                type="button"
+                                className="add-todo__add-button"
+                                name={'add'}
+                                value={'予定の追加'}
+                                onClick={props.onClickAddButton}
+                            />
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <input
-                type="button"
-                className="add-button"
-                name={'add'}
-                value={'予定の追加'}
-                onClick={props.onClickAddButton}
-            />
         </div>
     );
 }

@@ -99,6 +99,7 @@ export class TodoList extends React.Component<{}, TodoListState> {
 
         return (
             <div>
+                <h1 className="title">Todo List</h1>
                 <select
                     name="filter"
                     className="list-filter"
