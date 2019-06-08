@@ -24,8 +24,14 @@
 }
 .todo-list__element__name,
 .todo-list__element__deadline,
-.todo-list__element__state,
 .todo-list__element__priority {
+  font-size: 16px;
+}
+.todo-list__element__state {
+  margin: 10px;
+  width: 120px;
+  height: 32px;
+  border: 1px solid #bbb;
   font-size: 16px;
 }
 .todo-list__element__delete-button {

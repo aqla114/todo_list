@@ -139,20 +139,28 @@ export class TodoList extends React.Component<{}, TodoListState> {
     deleteTodo(id: string) {
         const todoList = this.state.todoList.slice().filter(x => x.id !== id);
 
-        console.log(id, todoList);
-
         this.setState({
             todoList,
         });
     }
 
     updateCurrentProps(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) {
-        console.log(this.state.todoList);
         const currentTodo: TodoProps = { ...this.state.currentTodo };
         currentTodo[e.target.name] = e.target.value;
 
         this.setState({
             currentTodo,
+        });
+    }
+
+    updateListElement(e: React.ChangeEvent<HTMLSelectElement>, id: string) {
+        const todoList = this.state.todoList.slice();
+        const idx = todoList.map(x => x.id).indexOf(id);
+
+        todoList[idx].state = e.target.value as ProgressState;
+
+        this.setState({
+            todoList,
         });
     }
 
@@ -176,7 +184,12 @@ export class TodoList extends React.Component<{}, TodoListState> {
             .slice()
             .sort(sorter(sortOption))
             .map(todo => (
-                <TodoElement key={todo.id} todoProps={todo} onClickDeleteButton={() => this.deleteTodo(todo.id)} />
+                <TodoElement
+                    key={todo.id}
+                    todoProps={todo}
+                    onClickDeleteButton={() => this.deleteTodo(todo.id)}
+                    onChangeCurrentProps={e => this.updateListElement(e, todo.id)}
+                />
             ));
 
         return (

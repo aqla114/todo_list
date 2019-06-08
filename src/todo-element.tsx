@@ -14,6 +14,7 @@ export type TodoProps = {
 export type TodoElementProps = {
     todoProps: TodoProps;
     onClickDeleteButton: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+    onChangeCurrentProps: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export function TodoElement(props: TodoElementProps) {
@@ -26,7 +27,16 @@ export function TodoElement(props: TodoElementProps) {
                 <span className="todo-list__element__deadline">{props.todoProps.deadline}</span>
             </td>
             <td>
-                <span className="todo-list__element__state">{progressState[props.todoProps.state]}</span>
+                <select
+                    name="state"
+                    className="todo-list__element__state"
+                    value={props.todoProps.state}
+                    onChange={props.onChangeCurrentProps}
+                >
+                    <option value="NotStartedYet">{progressState.NotStartedYet}</option>
+                    <option value="OnProgress">{progressState.OnProgress}</option>
+                    <option value="Completed">{progressState.Completed}</option>
+                </select>
             </td>
             <td>
                 <span className="todo-list__element__priority">{priority[props.todoProps.priority]}</span>
