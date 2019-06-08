@@ -3,6 +3,7 @@ import { TodoProps, TodoElement } from './todo-element';
 import { AddTodoForm } from './add-todo-form';
 import * as UUID from 'uuid';
 import { ProgressState } from './progress-state';
+import moment = require('moment');
 
 type FilterOption = ProgressState | 'All' | 'NotCompleted';
 
@@ -27,10 +28,12 @@ export type TodoListState = {
     filterOption: FilterOption;
 };
 
+const initialDate = new Date();
+
 const initialTodo: TodoProps = {
     id: '',
     name: '',
-    deadline: '',
+    deadline: moment().format('YYYY-MM-DD'),
     state: 'NotStartedYet',
     priority: 'Middle',
 };
